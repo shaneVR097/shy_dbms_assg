@@ -1,0 +1,45 @@
+-- Step 1: Create Tables
+CREATE TABLE dept5 (deptno NUMBER PRIMARY KEY, dname VARCHAR2(100));
+CREATE TABLE emp5 (empno NUMBER PRIMARY KEY, ename VARCHAR2(50), job VARCHAR2(10), mgr NUMBER, sal NUMBER, deptno NUMBER, FOREIGN KEY (deptno) REFERENCES dept5(deptno));
+
+-- Step 2: Insert Data into dept5 Table
+INSERT INTO dept5 VALUES (10, 'Finance');
+INSERT INTO dept5 VALUES (20, 'HR');
+INSERT INTO dept5 VALUES (30, 'IT');
+INSERT INTO dept5 VALUES (40, 'Sales');
+
+-- Step 3: Insert Data into emp5 Table
+INSERT INTO emp5 VALUES (1, 'John', 'CLERK', NULL, 3000, 10);
+INSERT INTO emp5 VALUES (2, 'Jane', 'MANAGER', NULL, 5000, 20);
+INSERT INTO emp5 VALUES (3, 'Tom', 'CLERK', 1, 3200, 10);
+INSERT INTO emp5 VALUES (4, 'Lucy', 'CLERK', 1, 3100, 10);
+INSERT INTO emp5 VALUES (5, 'Tim', 'ANALYST', 2, 4000, 30);
+
+-- Step 4: Queries
+
+-- Q2: Select names of the sailor for whom rating is present (Query: Same structure for sailor example)
+SELECT e.ename, d.dname, e.job FROM emp5 e JOIN dept5 d ON e.deptno = d.deptno;
+
+-- Q3: Display the number of employees in each department in the order of their count of employees
+SELECT d.dname, COUNT(e.empno) AS emp_count FROM dept5 d LEFT JOIN emp5 e ON d.deptno = e.deptno GROUP BY d.dname ORDER BY emp_count DESC;
+
+-- Q4: Display the department name along with number of employees and average salary of that department
+SELECT d.dname, COUNT(e.empno) AS emp_count, AVG(e.sal) AS avg_salary FROM dept5 d LEFT JOIN emp5 e ON d.deptno = e.deptno GROUP BY d.dname;
+
+-- Q5: For each department, find out the number of jobs the employees are assigned to
+SELECT d.dname, COUNT(DISTINCT e.job) AS job_count FROM dept5 d LEFT JOIN emp5 e ON d.deptno = e.deptno GROUP BY d.dname;
+
+-- Q6: Find the maximum salary in each department, but only for those departments which have more than one employee
+SELECT d.dname, MAX(e.sal) AS max_salary FROM dept5 d JOIN emp5 e ON d.deptno = e.deptno GROUP BY d.dname HAVING COUNT(e.empno) > 1 ORDER BY d.dname;
+
+-- Q7: Group by the employees based on the first character of employee first name, display the results in alphabetical order (descending)
+SELECT SUBSTR(e.ename, 1, 1) AS first_letter, COUNT(e.empno) AS emp_count FROM emp5 e GROUP BY SUBSTR(e.ename, 1, 1) ORDER BY first_letter DESC;
+
+-- Q8: Display department ID-wise count of employees who are 'CLERK'
+SELECT deptno, COUNT(empno) AS clerk_count FROM emp5 WHERE job = 'CLERK' GROUP BY deptno;
+
+-- Q8 (Part 2): Only those departments with more than 3 'CLERK' employees
+SELECT deptno, COUNT(empno) AS clerk_count FROM emp5 WHERE job = 'CLERK' GROUP BY deptno HAVING COUNT(empno) > 3;
+
+-- Q9: Display the list of employees and their supervisor from the emp5 table
+SELECT e.empno AS Employee_ID, e.ename AS Employee_Name, s.empno AS Supervisor_ID, s.ename AS Supervisor_Name FROM emp5 e LEFT JOIN emp5 s ON e.mgr = s.empno;
