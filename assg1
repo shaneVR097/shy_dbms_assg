@@ -1,0 +1,85 @@
+/*-- Create the CUSTOMER table
+CREATE TABLE CUSTOMER (
+    cust_id NUMBER,
+    cust_fname CHAR(20),
+    cust_lname CHAR(20),
+    territory CHAR(20),
+    cred_limit NUMBER,
+    mngr_id VARCHAR2(10),
+    marital_status CHAR(20),
+    income NUMBER
+);
+
+-- Drop the CUSTOMER table (if it exists)
+-- DROP TABLE CUSTOMER;
+
+-- View the structure of the CUSTOMER table
+-- DESC CUSTOMER;
+
+-- Insert data into the CUSTOMER table
+INSERT INTO CUSTOMER VALUES (1, 'James', 'Gomez', 'America', 8700, '123xxtr', 'Married', 10050);
+INSERT INTO CUSTOMER VALUES (2, 'Meg', 'Sen', 'Italy', 2300, '497rqtr', 'Single', 5400);
+INSERT INTO CUSTOMER VALUES (3, 'Adrija', 'Ghosh', 'India', 5000, '908mnsm', 'Single', 40100);
+
+-- Select all records from the CUSTOMER table
+SELECT * FROM CUSTOMER;
+
+-- Alter the CUSTOMER table to add a new column
+ALTER TABLE CUSTOMER ADD stay_from_year NUMBER(4);
+
+-- Update records in the CUSTOMER table
+UPDATE CUSTOMER SET stay_from_year = 2001 WHERE territory = 'America';
+
+-- Select records from the CUSTOMER table where territory is 'America'
+SELECT * FROM CUSTOMER WHERE territory = 'America';
+
+-- Correct the column name in the SELECT query
+SELECT cred_limit FROM CUSTOMER WHERE territory = 'America';
+
+-- Delete a record from the CUSTOMER table
+DELETE FROM CUSTOMER WHERE cust_fname = 'Meg';
+
+-- Select records where territory is 'Italy'
+SELECT * FROM CUSTOMER WHERE territory = 'Italy';
+
+-- Update credit limit for specific records
+UPDATE CUSTOMER SET cred_limit = 7000 WHERE marital_status = 'Single' AND territory = 'India';
+
+-- Select records with specific criteria
+SELECT * FROM CUSTOMER WHERE marital_status = 'Single' AND territory = 'India';
+
+-- Rename columns in the CUSTOMER table
+ALTER TABLE CUSTOMER RENAME COLUMN cust_fname TO first_name;
+ALTER TABLE CUSTOMER RENAME COLUMN cust_lname TO last_name;
+
+-- Drop the INCOME column
+ALTER TABLE CUSTOMER DROP COLUMN income;
+
+-- Rename the CUSTOMER table
+ALTER TABLE CUSTOMER RENAME TO CUST_ONE;
+
+-- Modify column data types
+update cust_one set cust_id=NULL;
+ALTER TABLE CUST_ONE MODIFY cust_id VARCHAR2(6);
+SELECT * FROM cust_one;
+-- Add a new column mngr_name to the CUSTOMER table
+ALTER TABLE cust_one ADD mngr_name CHAR(30);
+
+-- Insert 2 new records with mngr_name included
+INSERT INTO cust_one (cust_id, first_name, last_name, territory, cred_limit, mngr_id, marital_status, stay_from_year, mngr_name)
+VALUES (4, 'Ryan', 'Blake', 'Canada', 9000, '567plqw', 'Married', 2005, 'John Doe');
+
+INSERT INTO cust_one (cust_id, first_name, last_name, territory, cred_limit, mngr_id, marital_status, stay_from_year, mngr_name)
+VALUES (5, 'Emma', 'Smith', 'UK', 4500, '789yutr', 'Single', 2010, 'Jane Roe');
+
+-- Add a new column age to the CUSTOMER table
+ALTER TABLE cust_one ADD age NUMBER;
+
+-- Update the age for existing records (example values)
+UPDATE cust_one SET age = 35 WHERE first_name = 'James';
+UPDATE cust_one SET age = 28 WHERE first_name = 'Adrija';
+UPDATE cust_one SET age = 40 WHERE first_name = 'Ryan';
+UPDATE cust_one SET age = 30 WHERE first_name = 'Emma';*/
+--DROP TABLE cust_one;
+--flashback table cust_one to before drop;
+--select * from cust_one;
