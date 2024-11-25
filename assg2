@@ -1,0 +1,98 @@
+-- Q1: Select all columns from employees table
+SELECT * FROM HR.EMPLOYEES;
+
+-- Q2: Select only employee name, ID, and Job
+SELECT EMPLOYEE_ID, FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, JOB_ID
+FROM HR.EMPLOYEES;
+
+-- Q3: Select unique jobs using DISTINCT
+SELECT DISTINCT JOB_ID
+FROM HR.EMPLOYEES;
+
+-- Q4: Select employees with job 'ST_Clerk'
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, JOB_ID
+FROM HR.EMPLOYEES
+WHERE JOB_ID = 'ST_CLERK';
+
+-- Q5: Select employee name, grade, and salary in the order of salary
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, JOB_ID, SALARY
+FROM HR.EMPLOYEES
+ORDER BY SALARY;
+
+-- Q6: Create a new table emp2 with the structure of HR.EMPLOYEES (CTAS)
+CREATE TABLE EMP2 AS
+SELECT *
+FROM HR.EMPLOYEES
+WHERE 1=2;
+
+-- Q7: Display employee name, salary, and percentage increment for a flat 200 raise
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, SALARY, 
+       (200 / SALARY) * 100 AS PCT_INCR
+FROM HR.EMPLOYEES;
+
+-- Q8: Work experience of employees in years
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, 
+       ROUND((SYSDATE - HIRE_DATE) / 365, 2) AS EXPERIENCE_YEARS
+FROM HR.EMPLOYEES;
+
+-- Q9: Select employees who are either a Clerk or a Manager
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, JOB_ID
+FROM HR.EMPLOYEES
+WHERE JOB_ID = 'ST_CLERK' OR JOB_ID = 'ST_MAN';
+
+-- Using IN clause
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, JOB_ID
+FROM HR.EMPLOYEES
+WHERE JOB_ID IN ('ST_CLERK', 'ST_MAN');
+
+-- Using NOT IN clause (example: exclude Clerks and Managers)
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, JOB_ID
+FROM HR.EMPLOYEES
+WHERE JOB_ID NOT IN ('ST_CLERK', 'ST_MAN');
+
+-- Q10: Concatenate strings to create a message for employees
+SELECT FIRST_NAME || ' ' || LAST_NAME || ' is a ' || JOB_ID || 
+       ' and is working in the company for last ' || 
+       FLOOR((SYSDATE - HIRE_DATE) / 365) || ' Years.' AS MESSAGE
+FROM HR.EMPLOYEES;
+
+-- Q11: Employees who joined in the year 2000 or 2008
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, HIRE_DATE
+FROM HR.EMPLOYEES
+WHERE EXTRACT(YEAR FROM HIRE_DATE) IN (2000, 2008);
+
+-- Q12: Employees whose names start with 'A' (using LIKE)
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, EMPLOYEE_ID
+FROM HR.EMPLOYEES
+WHERE FIRST_NAME LIKE 'A%';
+
+-- Q13: Employees who joined on or before 31st Dec 2000 and are either clerks or have a salary > 2500
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, JOB_ID, SALARY, HIRE_DATE
+FROM HR.EMPLOYEES
+WHERE HIRE_DATE <= TO_DATE('31-DEC-2000', 'DD-MON-YYYY')
+  AND (JOB_ID = 'ST_CLERK' OR SALARY > 2500);
+
+-- Q14: Convert 'John' to upper case and 'ST_CLERK' to lower case
+SELECT UPPER('John') AS UPPER_CASE_NAME, LOWER('ST_CLERK') AS LOWER_CASE_JOB
+FROM DUAL;
+
+-- Q15: Display the name of your institute in upper case
+SELECT UPPER('Your Institute Name') AS INSTITUTE_NAME
+FROM DUAL;
+
+-- Q16: Display email and domain separately
+SELECT EMAIL, 
+       SUBSTR(EMAIL, 1, INSTR(EMAIL, '@') - 1) AS USERNAME,
+       SUBSTR(EMAIL, INSTR(EMAIL, '@') + 1) AS DOMAIN
+FROM HR.EMPLOYEES;
+
+-- Q17: Display day, month, and year of hire date
+SELECT FIRST_NAME || ' ' || LAST_NAME AS EMPLOYEE_NAME, 
+       EXTRACT(DAY FROM HIRE_DATE) AS HIRE_DAY, 
+       EXTRACT(MONTH FROM HIRE_DATE) AS HIRE_MONTH, 
+       EXTRACT(YEAR FROM HIRE_DATE) AS HIRE_YEAR
+FROM HR.EMPLOYEES;
+
+-- Q18: Display last name of employees right-aligned
+SELECT LPAD(LAST_NAME, 20) AS RIGHT_ALIGNED_LAST_NAME
+FROM HR.EMPLOYEES;
